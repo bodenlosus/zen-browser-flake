@@ -10,15 +10,15 @@
       downloadUrl = {
         "x86_64-linux" = {
           url =
-            "{https://github.com/zen-browser/desktop/releases/download/1.0.2-b.4/zen.linux-x86_64.tar.bz2}";
+            "https://github.com/zen-browser/desktop/releases/download/1.0.2-b.4/zen.linux-x86_64.tar.bz2";
           sha256 =
-            "sha256:{0vqzins5g4xx6niylzjq071vyk4djpn6a7rh1ymbx83ns0xb4lb5}";
+            "sha256:0vqzins5g4xx6niylzjq071vyk4djpn6a7rh1ymbx83ns0xb4lb5";
         };
         "aarch64-linux" = {
           url =
-            "{https://github.com/zen-browser/desktop/releases/download/1.0.2-b.4/zen.linux-aarch64.tar.bz2}";
+            "https://github.com/zen-browser/desktop/releases/download/1.0.2-b.4/zen.linux-aarch64.tar.bz2";
           sha256 =
-            "sha256:{1vxz49hrlw6397k2awqffx13cm303z1r8j39rl24ahn0l7hgkgqh}";
+            "sha256:1vxz49hrlw6397k2awqffx13cm303z1r8j39rl24ahn0l7hgkgqh";
         };
       };
 
