@@ -13,17 +13,25 @@ inputs = {
 
 ## Packages
 
-This flake exposes two packages, corresponding to the `x86_64` and `aarch64` zen versions.
 as of Zen Browser `1.0.2-b.4` the `generic` and `specific` branch don't exist.
 
-The `default` package is the `x86_64` one.
+The flake provides packages for both `x86_64-linux` and `aarch64-linux`.
 
-Then in the `configuration.nix` in the `environment.systemPackages` add one of:
+To install add one of the following lines:
 
+in `configuration.nix`
 ```nix
-inputs.zen-browser.packages."${system}".default
-inputs.zen-browser.packages."${system}".specific
-inputs.zen-browser.packages."${system}".generic
+environment.systemPackages = {
+  #...
+  inputs.zen-browser.packages."${system}".default
+}
+```
+or 
+```nix
+home.packages = {
+  #...
+  inputs.zen-browser.packages."${system}".default
+}
 ```
 
 Depending on which version you want
