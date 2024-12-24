@@ -13,12 +13,10 @@ inputs = {
 
 ## Packages
 
-This flake exposes two packages, corresponding to the `specific` and `generic` zen versions.
-The generic version maximizes compatibility with old CPUs and kernels by compiling it with some
-lower common denominator CFLAGS, the `specific` one targets newer CPUs and kernels but it may not
-work in your case.
+This flake exposes two packages, corresponding to the `x86_64` and `aarch64` zen versions.
+as of Zen Browser `1.0.2-b.4` the `generic` and `specific` branch don't exist.
 
-The `default` package is the `specific` one for backwards compatibility with older versions of the flake.
+The `default` package is the `x86_64` one.
 
 Then in the `configuration.nix` in the `environment.systemPackages` add one of:
 
