@@ -1,5 +1,7 @@
 import subprocess
 import pathlib
+import sys
+from typing import Iterable, TypedDict
 
 def prefetch(url: str):
     print("Fetching URL:", url)
@@ -10,34 +12,33 @@ def prefetch(url: str):
     
     return res.stdout.splitlines()[0].strip()
 
-def getSHA256s(genericURL: str, specificURL: str):
-    specificHASH = prefetch(url=specificURL)
-    genericHASH = prefetch(url=genericURL)
-    
-    return specificHASH, genericHASH
+def getSHA256s(urls: Iterable[str]) -> tuple[str,]:
+    return (prefetch(url) for url in urls)
 
 def getTemplate():
-    flakeTemplatePath = pathlib.Path("flake.nix.template")
+    flakeTemplatePath = pathlib.Path("flake.template.nix")
     flakeTemplateFile = open(file=flakeTemplatePath, mode="r")
     flakeTemplate = flakeTemplateFile.read()
     return flakeTemplate
 
 
+class Variant(TypedDict):
+    name: str
+    url: str
+    sha256: str
+
 def generateFlakeContent(
     template: str, 
     version: str, 
-    specificURL: str, 
-    specificHASH: str, 
-    genericURL: str, 
-    genericHASH: str
+    variants: Iterable[Variant],
     ):
     toReplace = {
-        "{VERSION}": version,
-        "{SPECIFIC_URL}": specificURL,
-        "{SPECIFIC_SHA256}": specificHASH,
-        "{GENERIC_URL}": genericURL,
-        "{GENERIC_SHA256}": genericHASH,
+        "%VERSION%": version,
     }
+    
+    for variant in variants:
+        toReplace[f"%{variant['name']}_URL%"] = variant["url"]
+        toReplace[f"%{variant['name']}_SHA256%"] = variant["sha256"]
 
     flakeContent = template
 
@@ -48,19 +49,22 @@ def generateFlakeContent(
 
 def generateFlake(version: str):
     urls = {
-    "SPECIFIC": f"https://github.com/zen-browser/desktop/releases/download/{version}/zen.linux-specific.tar.bz2",
-    "GENERIC": f"https://github.com/zen-browser/desktop/releases/download/{version}/zen.linux-generic.tar.bz2"
+    "x86_64": f"https://github.com/zen-browser/desktop/releases/download/{version}/zen.linux-x86_64.tar.bz2",
+    "aarch64": f"https://github.com/zen-browser/desktop/releases/download/{version}/zen.linux-aarch64.tar.bz2"
     }
     
-    specificHASH, genericHASH  = getSHA256s(genericURL=urls["GENERIC"], specificURL=urls["SPECIFIC"])
+    x86_64HASH, aarch64HASH  = getSHA256s(urls.values())
+    
+    variants = (
+        Variant(name="x86_64", url=urls["x86_64"], sha256=x86_64HASH),
+        Variant(name="aarch64", url=urls["aarch64"], sha256=aarch64HASH)
+    )
+    
     flakeTemplate = getTemplate()
     flakeContent = generateFlakeContent(
         template=flakeTemplate, 
         version=version, 
-        specificURL=urls["SPECIFIC"], 
-        specificHASH=specificHASH, 
-        genericURL=urls["GENERIC"], 
-        genericHASH=genericHASH
+        variants=variants,
     ) 
     
     # WRITE TO FLAXE.NIX
@@ -68,3 +72,7 @@ def generateFlake(version: str):
     flakePath.touch()
     flakeFile = open(file=flakePath, mode="w")
     flakeFile.write(flakeContent)
+
+
+if __name__ == "__main__":
+    generateFlake(version=sys.argv[1])
