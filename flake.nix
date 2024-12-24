@@ -126,7 +126,7 @@
       packages."${system}" = {
         x86_64-linux = mkZen { variant = "x86_64-linux"; };
         aarch64-linux = mkZen { variant = "aarch64-linux"; };
-        default = self.packages."${system}".specific;
+        default = self.packages."${system}".x86_64-linux;
       };
     };
 }
