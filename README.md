@@ -23,14 +23,14 @@ in `configuration.nix`
 ```nix
 environment.systemPackages = {
   #...
-  inputs.zen-browser.packages."${system}".default
+  inputs.zen-browser.packages."${system}"
 }
 ```
 or 
 ```nix
 home.packages = {
   #...
-  inputs.zen-browser.packages."${system}".default
+  inputs.zen-browser.packages."${system}"
 }
 ```
 
