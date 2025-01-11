@@ -9,12 +9,12 @@
 
       downloadUrl = {
         "x86_64-linux" = {
-          url = "https://github.com/zen-browser/desktop/releases/download/1.0.2-b.5/zen.linux-x86_64.tar.bz2";
-          sha256 = "sha256:1xp0z86l7z661cwckgr623gwwjsy3h66900xqjq6dvgx5a3njbxi";
+          url = "https://github.com/zen-browser/desktop/releases/download/1.6b/zen.linux-x86_64.tar.bz2";
+          sha256 = "sha256:099mjcs3avw2r0b4ikp5qq35qj2farx62zhz9dw10gp6qijcz7pd";
         };
         "aarch64-linux" = {
-          url = "https://github.com/zen-browser/desktop/releases/download/1.0.2-b.5/zen.linux-aarch64.tar.bz2";
-          sha256 = "sha256:1dm7la05ym41my837iyh469ccyxzf776v26hh1q835h17i3r5qcy";
+          url = "https://github.com/zen-browser/desktop/releases/download/1.6b/zen.linux-aarch64.tar.bz2";
+          sha256 = "sha256:12zb8x336nf8a9735l4jb4qbc7ha3gn3i5ddjd9cpr5bf4kajgjh";
         };
       };
 
@@ -71,7 +71,7 @@
         let downloadData = downloadUrl.${variant};
         in pkgs.stdenv.mkDerivation {
           pname = "zen-browser";
-          version = "1.0.2-b.5";
+          version = "1.6b";
 
           src = pkgs.fetchzip {
             url = downloadData.url;
